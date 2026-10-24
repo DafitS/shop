@@ -1,3 +1,10 @@
 spring:
   application:
     name: shop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shop_base
+    username: postgres
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: validate
