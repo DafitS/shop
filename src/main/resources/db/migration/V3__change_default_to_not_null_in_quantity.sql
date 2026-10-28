@@ -1,0 +1,4 @@
+
+ALTER TABLE shop.products
+ALTER COLUMN quantity DROP DEFAULT,
+ALTER COLUMN quantity SET NOT NULL;

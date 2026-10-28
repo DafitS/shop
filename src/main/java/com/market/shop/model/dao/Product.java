@@ -1,14 +1,11 @@
 package com.market.shop.model.dao;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.UUID;
 
 @Entity
@@ -19,11 +16,12 @@ import java.util.UUID;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy =  GenerationType.UUID)
     private UUID id;
 
     private String name;
     private BigDecimal price;
     private Long quantity;
-    private String serialNumber;
+    private String serialNumber;//poprawic pod ean i funkcja w popstgress pod ean
     private Boolean active;
 }
