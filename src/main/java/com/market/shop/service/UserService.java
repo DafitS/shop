@@ -30,10 +30,9 @@ public class UserService {
     }
 
     @Transactional
-    public User deleteUserById(UUID id) {
+    public void deleteUserById(UUID id) {
 
-        return userRepository.deleteUserById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+        userRepository.deleteById(id);
     }
 
     public User updateUser(User user) {

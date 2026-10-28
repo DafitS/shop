@@ -29,10 +29,9 @@ public class ProductService {
     }
 
     @Transactional
-    public Product deleteProductById(UUID id) {
+    public void deleteProductById(UUID id) {
 
-        return productRepository.deleteProductById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+        productRepository.deleteById(id);
     }
 
     public Product updateProduct(Product product) {

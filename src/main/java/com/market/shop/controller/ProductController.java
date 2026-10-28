@@ -29,9 +29,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public Product deleteProductById(@PathVariable UUID id) {
+    public void deleteProductById(@PathVariable UUID id) {
 
-        return productService.deleteProductById(id);
+         productService.deleteProductById(id);
     }
 
     @PutMapping()

@@ -22,6 +22,6 @@ public class Product {
     private String name;
     private BigDecimal price;
     private Long quantity;
-    private String serialNumber;//poprawic pod ean i funkcja w popstgress pod ean
+    private String serialNumber;//poprawic pod ean i funkcja w popstgress pod ean funkcja isn która dostrcza ean
     private Boolean active;
 }

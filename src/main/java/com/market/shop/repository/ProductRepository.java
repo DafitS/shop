@@ -8,5 +8,4 @@ import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, UUID> {
 
-    Optional<Product> deleteProductById(UUID id);
 }
