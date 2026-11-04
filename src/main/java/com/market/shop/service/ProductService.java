@@ -4,6 +4,8 @@ import com.market.shop.model.dao.Product;
 import com.market.shop.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,5 +39,10 @@ public class ProductService {
     public Product updateProduct(Product product) {
 
         return productRepository.save(product);
+    }
+
+    public Page<Product> getPageProducts(Pageable pageable) {
+
+        return productRepository.findAll(pageable);
     }
 }

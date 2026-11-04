@@ -4,7 +4,8 @@ import com.market.shop.model.dao.User;
 import com.market.shop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +22,7 @@ public class UserService {
     public User getUserById(UUID id) {
 
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));//powtórzyc optional
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
     }
 
     public User create(User user) {
@@ -38,5 +39,10 @@ public class UserService {
     public User updateUser(User user) {
 
         return userRepository.save(user);
+    }
+
+    public Page<User> getPageProducts(Pageable pageable) {
+
+        return userRepository.findAll(pageable);
     }
 }

@@ -1,8 +1,13 @@
 package com.market.shop.controller;
 
+import com.market.shop.mapper.UserMapper;
 import com.market.shop.model.dao.User;
+import com.market.shop.model.dto.UserResponseDto;
 import com.market.shop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -14,17 +19,18 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable UUID id) {
+    public UserResponseDto getUserById(@PathVariable UUID id) {
 
-        return userService.getUserById(id);
+        return userMapper.mapUserToUserResponse(userService.getUserById(id));
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public UserResponseDto createUser(@RequestBody User user) {
 
-        return userService.create(user);
+        return userMapper.mapUserToUserResponse(userService.create(user));
     }
 
     @DeleteMapping("/{id}")
@@ -34,9 +40,15 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User user) {
+    public UserResponseDto updateUser(@RequestBody User user) {
 
-        return userService.updateUser(user);
+        return userMapper.mapUserToUserResponse(userService.updateUser(user));
+    }
+
+    @GetMapping
+    public Page<UserResponseDto> getUserProducts(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userService.getPageProducts(pageable)
+                .map(userMapper::mapUserToUserResponse);
     }
 }
-//peoduct contr0oller dwie metody zapisac pobrqc, aktualizacja  i uswanie spróbowac
