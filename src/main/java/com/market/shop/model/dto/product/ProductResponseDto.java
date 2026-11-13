@@ -1,4 +1,4 @@
-package com.market.shop.model.dto;
+package com.market.shop.model.dto.product;
 
 import lombok.Builder;
 

@@ -1,9 +1,11 @@
 package com.market.shop.controller;
 
 
-import com.market.shop.mapper.ProductMapper;
+import com.market.shop.mapper.ProductMapStruct;
 import com.market.shop.model.dao.Product;
-import com.market.shop.model.dto.ProductResponseDto;
+import com.market.shop.model.dto.product.ProductCreateDto;
+import com.market.shop.model.dto.product.ProductResponseDto;
+import com.market.shop.model.dto.product.ProductUpdateDto;
 import com.market.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,39 +23,37 @@ import java.util.UUID;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductMapper productMapper;
+    private final ProductMapStruct productMapper;
 
     @GetMapping("/{id}")
     public ProductResponseDto getProductById(@PathVariable UUID id) {
-
-        return productMapper.mapUserToProductResponse(productService.getProductById(id));
+        return productMapper.mapProductToProductResponseDto(productService.getProductById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponseDto createProduct(@RequestBody Product product) {
-
-        return productMapper.mapUserToProductResponse(productService.createProduct(product));
+    public ProductResponseDto createProduct(@RequestBody ProductCreateDto product) {
+        Product newProduct = productMapper.mapProductCreateDtoToProduct(product);
+        return productMapper.mapProductToProductResponseDto(productService.createProduct(newProduct));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProductById(@PathVariable UUID id) {
-
-         productService.deleteProductById(id);
+        productService.deleteProductById(id);
     }
 
     @PutMapping
-    public ProductResponseDto updateProduct(@RequestBody Product product) {
-
-        return productMapper.mapUserToProductResponse(productService.updateProduct(product));
+    public ProductResponseDto updateProduct(@RequestBody ProductUpdateDto product) {
+        Product updateProduct = productMapper.mapProductUpdateDtoToProduct(product);
+        return productMapper.mapProductToProductResponseDto(productService.updateProduct(updateProduct));
     }
 
     @GetMapping
     public Page<ProductResponseDto> getPageProducts(@RequestParam int page, @RequestParam int size) {
         Pageable pageable = PageRequest.of(page, size);
         return productService.getPageProducts(pageable)
-                .map(productMapper::mapUserToProductResponse);
+                .map(productMapper::mapProductToProductResponseDto);
     }
 
 }

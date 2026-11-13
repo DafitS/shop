@@ -1,4 +1,4 @@
-package com.market.shop.model.dto;
+package com.market.shop.model.dto.user;
 
 import lombok.Builder;
 
