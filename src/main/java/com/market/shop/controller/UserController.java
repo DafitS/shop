@@ -6,11 +6,14 @@ import com.market.shop.model.dto.user.UserCreateDto;
 import com.market.shop.model.dto.user.UserResponseDto;
 import com.market.shop.model.dto.user.UserUpdateDto;
 import com.market.shop.service.UserService;
+import com.market.shop.validator.groups.Create;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,7 +21,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
-
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -31,14 +34,16 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Validated({Create.class})
     public UserResponseDto createUser(@RequestBody @Valid UserCreateDto user) {
         User newUser = userMapper.mapCreateUserDtoToUser(user);
         return userMapper.mapUserToUserResponseDto(userService.create(newUser));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable UUID id) {
-
         userService.deleteUserById(id);
     }
 
