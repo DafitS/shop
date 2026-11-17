@@ -24,4 +24,8 @@ public class Product {
     private Long quantity;
     private String serialNumber;//poprawic pod ean i funkcja w popstgress pod ean funkcja isn która dostrcza ean
     private Boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
