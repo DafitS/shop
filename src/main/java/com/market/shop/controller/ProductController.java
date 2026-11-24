@@ -34,7 +34,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponseDto createProduct(@RequestBody ProductCreateDto product) {
         Product newProduct = productMapper.mapProductCreateDtoToProduct(product);
-        return productMapper.mapProductToProductResponseDto(productService.createProduct(newProduct));
+        return productMapper.mapProductToProductResponseDto(productService.createProduct(newProduct, product.categoryId()));
     }
 
     @DeleteMapping("/{id}")

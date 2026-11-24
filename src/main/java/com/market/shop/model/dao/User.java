@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -24,5 +25,9 @@ public class User {
     private String email;
     private String password;
     private Boolean active;
+
+    @ManyToMany
+    @JoinTable(name = "user_role", schema = "shop", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
 }

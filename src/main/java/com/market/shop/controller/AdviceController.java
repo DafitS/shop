@@ -17,4 +17,3 @@ public class AdviceController {
         log.error("Validation error", constraintViolationException);
     }
 }
-//dodac reponse statusy i poczytac z dzisiaj, powórka crud dla category zrobic category jeden do wielu

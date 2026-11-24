@@ -1,5 +1,6 @@
 package com.market.shop.service;
 
+import com.market.shop.model.dao.Category;
 import com.market.shop.model.dao.Product;
 import com.market.shop.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
     public Product getProductById(UUID id) {
 
@@ -25,8 +27,10 @@ public class ProductService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(Product product, UUID categoryId) {
 
+        Category foundCategory = categoryService.getCategoryById(categoryId);
+        product.setCategory(foundCategory);
         return productRepository.save(product);
     }
 
