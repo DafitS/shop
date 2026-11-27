@@ -2,6 +2,7 @@ package com.market.shop.controller;
 
 import com.market.shop.mapper.UserMapStruct;
 import com.market.shop.model.dao.User;
+import com.market.shop.model.dto.user.UpdateRole;
 import com.market.shop.model.dto.user.UserCreateDto;
 import com.market.shop.model.dto.user.UserResponseDto;
 import com.market.shop.model.dto.user.UserUpdateDto;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -58,5 +60,17 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size);
         return userService.getPageProducts(pageable)
                 .map(userMapper::mapUserToUserResponseDto);
+    }
+
+    @DeleteMapping("/roles/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUserRole(@PathVariable UUID id, @RequestBody UpdateRole updateRole) {
+        userService.updateRoles(id, updateRole.roleName(), Set::remove);
+    }
+
+    @PutMapping("/roles/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addUserRole(@PathVariable UUID id, @RequestBody UpdateRole updateRole) {
+        userService.updateRoles(id, updateRole.roleName(), Set::add);
     }
 }

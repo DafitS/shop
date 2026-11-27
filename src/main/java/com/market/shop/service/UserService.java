@@ -1,5 +1,6 @@
 package com.market.shop.service;
 
+import com.market.shop.model.dao.Role;
 import com.market.shop.model.dao.User;
 import com.market.shop.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private RoleService roleService;
 
     public User getUserById(UUID id) {
 
@@ -44,5 +48,13 @@ public class UserService {
     public Page<User> getPageProducts(Pageable pageable) {
 
         return userRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public void updateRoles(UUID userId, String roleName, BiConsumer<Set<Role>, Role> consumerOfRoles) {
+        User founduser = getUserById(userId);
+        Role foundRole = roleService.getRoleByName(roleName);
+
+        consumerOfRoles.accept(founduser.getRoles(), foundRole);
     }
 }
